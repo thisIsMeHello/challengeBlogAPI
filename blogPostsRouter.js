@@ -6,9 +6,9 @@ const jsonParser = bodyParser.json();
 
 const {BlogPosts} = require('./models');
 
-BlogPosts.create("This Sucks", "Really important stuff to say","Dave Cabrini");
-BlogPosts.create("Everything is Bollocks", "more important stuff to say", "Nigel Mansell");
-BlogPosts.create("Your Mother", "The life and Times of a hoe", "Madam Stoopido");
+BlogPosts.create("Hello", "Really important stuff to say","Dave Cabrini");
+BlogPosts.create("Everything is Awesome", "more important stuff to say", "Nigel Mansell");
+BlogPosts.create("Your Mother", "Great content here", "Madam Stoopido");
 
 router.get('/', (req, res) => {
   res.json(BlogPosts.get());
@@ -29,7 +29,9 @@ router.delete('/:id', (req, res) => {
 router.put('/:id', jsonParser, (req, res) => {
   console.log("updating");
   const updatedPost = BlogPosts.update({
-    title: req.params.id,
+
+    id: req.params.id,
+    title: req.params.title,
     content: req.body.content,
     author: req.body.author
   })
