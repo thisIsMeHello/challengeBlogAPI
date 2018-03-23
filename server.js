@@ -17,8 +17,8 @@ app.get('/', (req, res) => {
 
 app.use('/blog-posts', blogPostsRouter);
 
-app.listen(process.env.PORT || 3000, () => console.log(
-  `Your app is listening on port ${process.env.PORT || 3000}`));
+// app.listen(process.env.PORT || 3000, () => console.log(
+//   `Your app is listening on port ${process.env.PORT || 3000}`));
 
   function runServer() {
     const port = process.env.PORT || 3000;
