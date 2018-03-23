@@ -31,10 +31,11 @@ router.put('/:id', jsonParser, (req, res) => {
   const updatedPost = BlogPosts.update({
 
     id: req.params.id,
-    title: req.params.title,
+    title: req.body.title,
     content: req.body.content,
     author: req.body.author
   })
+  res.json(updatedPost);
 })
 
 module.exports = router;
