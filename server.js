@@ -2,6 +2,14 @@
 
 const express = require('express');
 const morgan = require('morgan');
+const mongoose = require('mongoose');
+
+mongoose.Promise = global.Promise;
+
+const { PORT, DATABASE_URL } = require('./config');
+const { Post } = require('./models/post');
+
+mongoose.connect(DATABASE_URL);
 
 const app = express();
 
@@ -15,16 +23,18 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/public/index.html');
 });
 
-app.use('/blog-posts', blogPostsRouter);
+// app.use('/blog-posts', blogPostsRouter);
+app.get('/blog-posts', (req, res) => {
+  Post.find().then(posts => res.json(posts));
+});
 
 // app.listen(process.env.PORT || 3000, () => console.log(
 //   `Your app is listening on port ${process.env.PORT || 3000}`));
 
   function runServer() {
-    const port = process.env.PORT || 3000;
     return new Promise((resolve, reject) => {
-      server = app.listen(port, () => {
-        console.log(`Your app is listening on port ${port}`);
+      server = app.listen(PORT, () => {
+        console.log(`Your app is listening on PORT ${PORT}`);
         resolve(server);
       }).on('error', err => {
         reject(err)
