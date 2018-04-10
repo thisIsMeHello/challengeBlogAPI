@@ -3,30 +3,32 @@
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
 mongoose.Promise = global.Promise;
 
 const { PORT, DATABASE_URL } = require('./config');
-const { Post } = require('./models/post');
+const { blogPost } = require('./models/post');
 
 mongoose.connect(DATABASE_URL);
 
 const app = express();
+app.use(bodyParser.json());
 
 const blogPostsRouter = require('./blogPostsRouter');
 
 app.use(morgan('common'));
-
 app.use(express.static('public'));
 
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/public/index.html');
-});
+//sends static file
+// app.get('/', (req, res) => {
+//   res.sendFile(__dirname + '/public/index.html');
+// });
 
-// app.use('/blog-posts', blogPostsRouter);
-app.get('/blog-posts', (req, res) => {
-  Post.find().then(posts => res.json(posts));
-});
+app.use('/blog-posts', blogPostsRouter);
+// app.get('/blog-posts', (req, res) => {
+//   blogPost.find().then(posts => res.json(posts));
+// });
 
 // app.listen(process.env.PORT || 3000, () => console.log(
 //   `Your app is listening on port ${process.env.PORT || 3000}`));
